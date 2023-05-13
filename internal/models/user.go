@@ -1,6 +1,7 @@
 package models
 
 import (
+	"os"
 	"time"
 
 	"github.com/b4sile/bike-service-backend/internal/helpers"
@@ -13,7 +14,7 @@ type User struct {
 	Surname       string         `json:"surname"`
 	Lastname      string         `json:"lastname"`
 	Email         string         `json:"email" gorm:"uniqueIndex"`
-	Password      string         `json:"password"`
+	Password      string         `json:"-"`
 	Phone         string         `json:"phone"`
 	CreatedAt     time.Time      `json:"createdAt"`
 	UpdatedAt     time.Time      `json:"updatedAt"`
@@ -24,5 +25,17 @@ type User struct {
 
 func (u *User) BeforeCreate(tx *gorm.DB) error {
 	u.Password = helpers.HashPassword(u.Password)
+	return nil
+}
+
+func CreateAdminUser() error {
+	var user User
+	if err := DB.First(&user, "is_admin = ?", true).Error; err != nil {
+		user.Email = os.Getenv("ADMIN_EMAIL")
+		user.Password = os.Getenv("ADMIN_PASSWORD")
+		user.IsAdmin = true
+		DB.Create(&user)
+		return nil
+	}
 	return nil
 }

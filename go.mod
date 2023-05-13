@@ -3,6 +3,7 @@ module github.com/b4sile/bike-service-backend
 go 1.20
 
 require (
+	github.com/gin-gonic/contrib v0.0.0-20221130124618-7e01895a63f2
 	github.com/gin-gonic/gin v1.9.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/joho/godotenv v1.5.1

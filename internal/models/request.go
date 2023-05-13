@@ -2,21 +2,28 @@ package models
 
 import "time"
 
-type RequestStatus string
+type RequestStatusType string
 
 const (
-	accepted RequestStatus = "Accepted"
-	pending  RequestStatus = "Pending"
-	declined RequestStatus = "Declined"
-	canceled RequestStatus = "Canceled"
+	accepted RequestStatusType = "Accepted"
+	pending  RequestStatusType = "Pending"
+	declined RequestStatusType = "Declined"
+	canceled RequestStatusType = "Canceled"
 )
 
+var RequestStatus = struct {
+	Accepted RequestStatusType
+	Pending  RequestStatusType
+	Declined RequestStatusType
+	Canceled RequestStatusType
+}{Accepted: accepted, Pending: pending, Declined: declined, Canceled: canceled}
+
 type Request struct {
-	ID          uint          `json:"id" gorm:"primaryKey"`
-	UserId      uint          `json:"userId"`
-	Status      RequestStatus `json:"status"`
-	Description string        `json:"description"`
-	CreatedAt   time.Time     `json:"createdAt"`
-	UpdatedAt   time.Time     `json:"updatedAt"`
-	Services    []Service     `json:"-" gorm:"many2many:request-services;"`
+	ID          uint              `json:"id" gorm:"primaryKey"`
+	UserId      uint              `json:"userId"`
+	Status      RequestStatusType `json:"status"`
+	Description string            `json:"description"`
+	CreatedAt   time.Time         `json:"createdAt"`
+	UpdatedAt   time.Time         `json:"updatedAt"`
+	Services    []Service         `json:"-" gorm:"many2many:request-services;"`
 }

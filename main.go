@@ -8,6 +8,7 @@ import (
 	"github.com/b4sile/bike-service-backend/internal/controllers"
 	"github.com/b4sile/bike-service-backend/internal/middlewares"
 	"github.com/b4sile/bike-service-backend/internal/models"
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -24,10 +25,13 @@ func main() {
 	r := gin.Default()
 
 	models.ConnectDB()
+	models.CreateAdminUser()
 
 	public := r.Group("/api")
 	auth := r.Group("/api").Use(middlewares.JwtAuthMiddleware())
 	admin := r.Group("/api").Use(middlewares.JwtAuthMiddleware()).Use(middlewares.AdminAuthMiddleware())
+
+	r.Use(static.Serve("/", static.LocalFile("./assets/build", true)))
 
 	admin.GET("/users", controllers.GetUsers)
 	admin.GET("/users/:id", controllers.GetUser)

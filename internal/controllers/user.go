@@ -36,7 +36,7 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 
-	models.DB.Select("Requests").Delete(&user)
+	models.DB.Select("Requests", "Notifications").Delete(&user)
 	c.JSON(http.StatusOK, gin.H{"ok": true})
 }
 
@@ -53,7 +53,15 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&user).Updates(input)
+	value := map[string]interface{}{
+		"Name":     input.Name,
+		"Lastname": input.Lastname,
+		"Surname":  input.Surname,
+		"Email":    input.Email,
+		"Phone":    input.Phone,
+		"IsAdmin":  input.IsAdmin}
+
+	models.DB.Model(&user).Updates(value)
 	c.JSON(http.StatusOK, user)
 }
 
@@ -69,6 +77,7 @@ func CreateUser(c *gin.Context) {
 		Lastname: input.Lastname,
 		Surname:  input.Surname,
 		Email:    input.Email,
+		Password: input.Password,
 		Phone:    input.Phone,
 		IsAdmin:  input.IsAdmin}
 	models.DB.Create(&user)

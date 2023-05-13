@@ -1,14 +1,19 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/b4sile/bike-service-backend/internal/helpers"
+	"gorm.io/gorm"
+)
 
 type User struct {
 	ID            uint           `json:"id" gorm:"primaryKey"`
 	Name          string         `json:"name"`
 	Surname       string         `json:"surname"`
 	Lastname      string         `json:"lastname"`
-	Email         string         `json:"email"`
-	Password      string         `json:"-"`
+	Email         string         `json:"email" gorm:"uniqueIndex"`
+	Password      string         `json:"password"`
 	Phone         string         `json:"phone"`
 	CreatedAt     time.Time      `json:"createdAt"`
 	UpdatedAt     time.Time      `json:"updatedAt"`
@@ -17,12 +22,7 @@ type User struct {
 	Notifications []Notification `json:"-"`
 }
 
-func (u *User) SaveUser() (*User, error) {
-
-	var err error
-	err = DB.Create(&u).Error
-	if err != nil {
-		return &User{}, err
-	}
-	return u, nil
+func (u *User) BeforeCreate(tx *gorm.DB) error {
+	u.Password = helpers.HashPassword(u.Password)
+	return nil
 }

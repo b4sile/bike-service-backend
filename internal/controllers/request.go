@@ -10,7 +10,12 @@ import (
 
 func GetRequests(c *gin.Context) {
 	var requests []models.Request
-	if err := models.DB.Find(&requests).Error; err != nil {
+	mp := map[string]interface{}{}
+	userId := c.Query("userId")
+	if userId != "" {
+		mp["user_id"] = userId
+	}
+	if err := models.DB.Where(mp).Find(&requests).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

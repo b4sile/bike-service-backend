@@ -38,6 +38,7 @@ func main() {
 	auth.PUT("/users/:id", controllers.UpdateUser)
 	admin.DELETE("/users/:id", controllers.DeleteUser)
 	public.POST("/users", controllers.CreateUser)
+	auth.GET("/users/getMe", controllers.GetCurrentUser)
 
 	public.GET("/services", controllers.GetServices)
 	public.GET("/services/:id", controllers.GetService)

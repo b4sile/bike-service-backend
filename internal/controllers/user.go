@@ -84,3 +84,13 @@ func CreateUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+func GetCurrentUser(c *gin.Context) {
+	var user models.User
+	if err := models.DB.First(&user, c.GetUint("userId")).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}

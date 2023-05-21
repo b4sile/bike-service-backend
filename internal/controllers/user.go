@@ -8,6 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type RegisterInput struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Name     string `json:"name"`
+	Phone    string `json:"phone"`
+	Lastname string `json:"lastname"`
+	Surname  string `json:"surname"`
+	IsAdmin  bool   `json:"isAdmin"`
+}
+
 func GetUsers(c *gin.Context) {
 	var users []models.User
 	if err := models.DB.Find(&users).Error; err != nil {
@@ -66,7 +76,7 @@ func UpdateUser(c *gin.Context) {
 }
 
 func CreateUser(c *gin.Context) {
-	var input models.User
+	var input RegisterInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

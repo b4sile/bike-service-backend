@@ -46,13 +46,13 @@ func main() {
 	admin.DELETE("/services/:id", controllers.DeleteService)
 	admin.POST("/services", controllers.CreateService)
 
-	admin.GET("/requests", controllers.GetRequests)
+	auth.GET("/requests", controllers.GetRequests)
 	admin.GET("/requests/:id", controllers.GetRequest)
 	auth.PUT("/requests/:id", controllers.UpdateRequest)
 	auth.DELETE("/requests/:id", controllers.DeleteRequest)
 	auth.POST("/requests", controllers.CreateRequest)
 
-	admin.GET("/notifications", controllers.GetNotifications)
+	auth.GET("/notifications", controllers.GetNotifications)
 	admin.GET("/notifications/:id", controllers.GetNotification)
 	admin.PUT("/notifications/:id", controllers.UpdateNotification)
 	admin.DELETE("/notifications/:id", controllers.DeleteNotification)

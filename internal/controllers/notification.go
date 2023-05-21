@@ -10,7 +10,12 @@ import (
 
 func GetNotifications(c *gin.Context) {
 	var notifications []models.Notification
-	if err := models.DB.Find(&notifications).Error; err != nil {
+	mp := map[string]interface{}{}
+	userId := c.Query("userId")
+	if userId != "" {
+		mp["user_id"] = userId
+	}
+	if err := models.DB.Where(mp).Find(&notifications).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

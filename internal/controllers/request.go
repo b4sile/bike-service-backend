@@ -77,6 +77,7 @@ func CreateRequest(c *gin.Context) {
 	request := models.Request{
 		UserId:      input.UserId,
 		Status:      input.Status,
+		Phone:       input.Phone,
 		Description: input.Description}
 	models.DB.Create(&request)
 

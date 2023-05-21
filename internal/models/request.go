@@ -23,6 +23,7 @@ type Request struct {
 	UserId      uint              `json:"userId"`
 	Status      RequestStatusType `json:"status"`
 	Description string            `json:"description"`
+	Phone       string            `json:"phone"`
 	CreatedAt   time.Time         `json:"createdAt"`
 	UpdatedAt   time.Time         `json:"updatedAt"`
 	Services    []Service         `json:"-" gorm:"many2many:request-services;"`

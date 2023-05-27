@@ -59,9 +59,13 @@ func UpdateRequest(c *gin.Context) {
 	}
 
 	value := map[string]interface{}{
-		"UserId":      input.UserId,
-		"Status":      input.Status,
-		"Description": input.Description}
+		"UserId":         input.UserId,
+		"Status":         input.Status,
+		"Latitude":       input.Latitude,
+		"Longitude":      input.Longitude,
+		"Phone":          input.Phone,
+		"IsOuterRequest": input.IsOuterRequest,
+		"Description":    input.Description}
 
 	models.DB.Model(&request).Updates(value)
 	c.JSON(http.StatusOK, request)
@@ -75,10 +79,13 @@ func CreateRequest(c *gin.Context) {
 	}
 
 	request := models.Request{
-		UserId:      input.UserId,
-		Status:      input.Status,
-		Phone:       input.Phone,
-		Description: input.Description}
+		UserId:         input.UserId,
+		Status:         input.Status,
+		Phone:          input.Phone,
+		Latitude:       input.Latitude,
+		Longitude:      input.Longitude,
+		IsOuterRequest: input.IsOuterRequest,
+		Description:    input.Description}
 	models.DB.Create(&request)
 
 	c.JSON(http.StatusOK, request)
